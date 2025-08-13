@@ -1,0 +1,79 @@
+Jose, posso te ajudar a montar um PRD (Product Requirements Document) completo para esse sistema de controle de Indicador de Desempenho de Fornecedor (IDF). Abaixo está uma estrutura inicial que podemos adaptar conforme suas necessidades específicas:
+
+---
+
+## 📄 Documento de Requisitos do Produto (PRD)  
+**Projeto:** Sistema de Controle de Indicador de Desempenho de Fornecedor (IDF)  
+**Responsável:** Jose do Egito Araujo Salvador  
+**Objetivo:** Avaliar o desempenho de fornecedores com base em pesquisas realizadas com diferentes perfis de usuários (fiscais de campo, fiscais administrativos, gerentes), considerando temas específicos e pesos para cálculo do IDF.
+
+---
+
+### 1. **Visão Geral**
+O sistema visa consolidar avaliações periódicas de fornecedores com base em pesquisas aplicadas a diferentes perfis de avaliadores. Cada pesquisa será composta por temas (ex: SMS, GESTÃO, OPERAÇÃO), com perguntas específicas e respostas padronizadas em percentual. O cálculo do IDF será ponderado conforme o peso de cada tema.
+
+---
+
+### 2. **Perfis de Avaliadores**
+- **Fiscal de Campo:** Avaliação por relatório de medição.
+- **Fiscal Administrativo:** Avaliação por período.
+- **Gerente:** Avaliação por período.
+
+---
+
+### 3. **Temas e Pesos**
+Cada tema terá um peso definido para o cálculo do IDF. Exemplos:
+- **SMS:** Peso 3  
+- **OPERAÇÃO:** Peso 4  
+- **GESTÃO:** Peso 3  
+*(Esses pesos podem ser definidos na criação dos temas ou das perguntas.)*
+
+---
+
+### 4. **Modelo de Resposta**
+Cada pergunta terá opções de resposta com valores percentuais padronizados:
+- **Atendeu 100%**
+- **Atendeu entre 80% e 95%**
+- **Atendeu entre 60% e 79%**
+- **Não atendeu (0%)**
+- **Não aplicável**
+
+---
+
+### 5. **Cálculo do IDF**
+O IDF será calculado com base na média ponderada das respostas por tema, considerando o peso de cada tema. Fórmula sugerida:
+
+$$
+IDF = \frac{\sum (Nota\_Tema \times Peso\_Tema)}{\sum Peso\_Tema}
+$$
+
+---
+
+### 6. **Funcionalidades do Sistema**
+- Cadastro de fornecedores
+- Cadastro de temas e definição de pesos
+- Cadastro de perguntas por tema
+- Aplicação de pesquisas por perfil de avaliador
+- Registro de respostas com valor percentual
+- Cálculo automático do IDF
+- Relatórios por fornecedor, período e perfil
+- Exportação de dados (Excel/PDF)
+
+---
+
+### 7. **Requisitos Técnicos**
+- Interface web responsiva
+- Autenticação por perfil
+- Banco de dados relacional
+- Painel de administração para configuração de temas, perguntas e pesos
+
+---
+
+### 8. **Indicadores e Relatórios**
+- IDF por fornecedor e período
+- Evolução histórica do IDF
+- Comparativo entre fornecedores
+- Alertas para desempenho abaixo de metas
+
+---
+
