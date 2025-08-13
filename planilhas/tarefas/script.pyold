@@ -1,0 +1,104 @@
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Datetime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, sessionmaker
+
+Base = declarative_base()
+
+class BaseTable(Base):
+    id = Column(Integer, primary_key=True)
+    created_at = Column(Datetime, default=now())
+    modified_at = Column(Datetime, default=now())
+    deleted_at = Column(Datetime)
+
+class Usuario(BaseTable):
+    __tablename__ = 'usuarios'
+    nome = Column(String, nullable=False)
+    email = Column(String, nullable=False, unique=True)
+    tarefas = relationship('Tarefa', back_populates='usuario')
+
+class Tarefa(BaseTable):
+    __tablename__ = 'tarefas'
+    id = Column(Integer, primary_key=True)
+    descricao = Column(String, nullable=False)
+    usuario_id = Column(Integer, ForeignKey('usuarios.id'))
+    usuario = relationship('Usuario', back_populates='tarefas')
+
+def init_db():
+    engine = create_engine('sqlite:///app.db')
+    Base.metadata.create_all(engine)
+    return sessionmaker(bind=engine)
+
+Session = init_db()
+
+
+### 2. Funções CRUD (`main.py`)
+
+
+from database import Session, Usuario, Tarefa
+
+# Funções CRUD para Usuários
+def criar_usuario(nome, email):
+    session = Session()
+    novo_usuario = Usuario(nome=nome, email=email)
+    session.add(novo_usuario)
+    session.commit()
+    session.close()
+
+def ler_usuarios():
+    session = Session()
+    usuarios = session.query(Usuario).all()
+    session.close()
+    return usuarios
+
+def atualizar_usuario(usuario_id, nome=None, email=None):
+    session = Session()
+    usuario = session.query(Usuario).get(usuario_id)
+    if nome:
+        usuario.nome = nome
+    if email:
+        usuario.email = email
+    session.commit()
+    session.close()
+
+def deletar_usuario(usuario_id):
+    session = Session()
+    usuario = session.query(Usuario).get(usuario_id)
+    session.delete(usuario)
+    session.commit()
+    session.close()
+
+# Funções CRUD para Tarefas
+def criar_tarefa(descricao, usuario_id):
+    session = Session()
+    nova_tarefa = Tarefa(descricao=descricao, usuario_id=usuario_id)
+    session.add(nova_tarefa)
+    session.commit()
+    session.close()
+
+def ler_tarefas():
+    session = Session()
+    tarefas = session.query(Tarefa).all()
+    session.close()
+    return tarefas
+
+def atualizar_tarefa(tarefa_id, descricao=None):
+    session = Session()
+    tarefa = session.query(Tarefa).get(tarefa_id)
+    if descricao:
+        tarefa.descricao = descricao
+    session.commit()
+    session.close()
+
+def deletar_tarefa(tarefa_id):
+    session = Session()
+    tarefa = session.query(Tarefa).get(tarefa_id)
+    session.delete(tarefa)
+    session.commit()
+    session.close()
+
+
+### Como Usar
+#1. Salve os códigos acima em arquivos `database.py` e `main.py`.
+#2. Execute `main.py` para realizar operações CRUD.
+
+#Se precisar de mais alguma coisa ou tiver dúvidas, estou aqui para ajudar! 😊
